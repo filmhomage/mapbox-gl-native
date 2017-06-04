@@ -62,10 +62,9 @@ ${fragmentPrelude}
     'symbol_sdf'
 ].forEach(function (shaderName) {
     function applyPragmas(source, pragmas) {
-        return source.replace(/#pragma mapbox: ([\w]+) ([\w]+) ([\w]+) ([\w]+)/g, (match, operation, precision, type, name) => {
+        return source.replace(/ *#pragma +mapbox: +([\w]+) +([\w]+) +([\w]+) +([\w]+) *\n/g, (match, operation, precision, type, name) => {
             const a_type = type === "float" ? "vec2" : "vec4";
             return pragmas[operation]
-                .join("\n")
                 .replace(/\{type\}/g, type)
                 .replace(/\{a_type}/g, a_type)
                 .replace(/\{precision\}/g, precision)
@@ -76,25 +75,39 @@ ${fragmentPrelude}
     function vertexSource() {
         const source = fs.readFileSync(path.join(inputPath, shaderName + '.vertex.glsl'), 'utf8');
         return applyPragmas(source, {
-                define: [
-                    "uniform lowp float a_{name}_t;",
-                    "attribute {precision} {a_type} a_{name};",
-                    "varying {precision} {type} {name};"
-                ],
-                initialize: [
-                    "{name} = unpack_mix_{a_type}(a_{name}, a_{name}_t);"
-                ]
-            });
+                define: `
+#ifndef HAS_UNIFORM_{name}
+uniform lowp float a_{name}_t;
+attribute {precision} {a_type} a_{name};
+varying {precision} {type} {name};
+#else
+uniform {precision} {type} u_{name};
+#endif
+`,
+                initialize: `
+#ifndef HAS_UNIFORM_{name}
+    {name} = unpack_mix_{a_type}(a_{name}, a_{name}_t);
+#else
+    {precision} {type} {name} = u_{name};
+#endif
+` });
     }
 
     function fragmentSource() {
         const source = fs.readFileSync(path.join(inputPath, shaderName + '.fragment.glsl'), 'utf8');
         return applyPragmas(source, {
-                define: [
-                    "varying {precision} {type} {name};"
-                ],
-                initialize: [
-                ]
+                define: `
+#ifndef HAS_UNIFORM_{name}
+varying {precision} {type} {name};
+#else
+uniform {precision} {type} u_{name};
+#endif
+`,
+                initialize: `
+#ifdef HAS_UNIFORM_{name}
+    {precision} {type} {name} = u_{name};
+#endif
+`
             });
     }
 
