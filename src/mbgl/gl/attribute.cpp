@@ -28,7 +28,10 @@ void VariableAttributeBinding<T, N>::bind(Context& context,
         return;
     }
     context.vertexBuffer = vertexBuffer;
-    MBGL_CHECK_ERROR(glEnableVertexAttribArray(location));
+    if (!oldBinding) {
+        MBGL_CHECK_ERROR(glEnableVertexAttribArray(location));
+    }
+    oldBinding = *this;
     MBGL_CHECK_ERROR(glVertexAttribPointer(
         location,
         static_cast<GLint>(attributeSize),
@@ -61,32 +64,40 @@ template class VariableAttributeBinding<float, 4>;
 template <>
 void ConstantAttributeBinding<uint8_t, 1>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint8_t, 1>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib1f(location, value[0]));
 }
 
 template <>
 void ConstantAttributeBinding<uint8_t, 2>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint8_t, 2>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib2f(location, value[0], value[1]));
 }
 
 template <>
 void ConstantAttributeBinding<uint8_t, 3>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint8_t, 3>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib3f(location, value[0], value[1], value[2]));
 }
 
 template <>
 void ConstantAttributeBinding<uint8_t, 4>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint8_t, 4>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib4f(location, value[0], value[1], value[2], value[3]));
 }
 
@@ -94,32 +105,40 @@ void ConstantAttributeBinding<uint8_t, 4>::bind(Context&, AttributeLocation loca
 template <>
 void ConstantAttributeBinding<uint16_t, 1>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint16_t, 1>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib1f(location, value[0]));
 }
 
 template <>
 void ConstantAttributeBinding<uint16_t, 2>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint16_t, 2>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib2f(location, value[0], value[1]));
 }
 
 template <>
 void ConstantAttributeBinding<uint16_t, 3>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint16_t, 3>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib3f(location, value[0], value[1], value[2]));
 }
 
 template <>
 void ConstantAttributeBinding<uint16_t, 4>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<uint16_t, 4>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib4f(location, value[0], value[1], value[2], value[3]));
 }
 
@@ -127,32 +146,40 @@ void ConstantAttributeBinding<uint16_t, 4>::bind(Context&, AttributeLocation loc
 template <>
 void ConstantAttributeBinding<int16_t, 1>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<int16_t, 1>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib1f(location, value[0]));
 }
 
 template <>
 void ConstantAttributeBinding<int16_t, 2>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<int16_t, 2>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib2f(location, value[0], value[1]));
 }
 
 template <>
 void ConstantAttributeBinding<int16_t, 3>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<int16_t, 3>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib3f(location, value[0], value[1], value[2]));
 }
 
 template <>
 void ConstantAttributeBinding<int16_t, 4>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<int16_t, 4>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib4f(location, value[0], value[1], value[2], value[3]));
 }
 
@@ -160,32 +187,40 @@ void ConstantAttributeBinding<int16_t, 4>::bind(Context&, AttributeLocation loca
 template <>
 void ConstantAttributeBinding<float, 1>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<float, 1>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib1f(location, value[0]));
 }
 
 template <>
 void ConstantAttributeBinding<float, 2>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<float, 2>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib2f(location, value[0], value[1]));
 }
 
 template <>
 void ConstantAttributeBinding<float, 3>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<float, 3>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib3f(location, value[0], value[1], value[2]));
 }
 
 template <>
 void ConstantAttributeBinding<float, 4>::bind(Context&, AttributeLocation location, optional<VariableAttributeBinding<float, 4>>& oldBinding, std::size_t) const {
     assert(location != 0);
-    oldBinding = {};
-    MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+    if (oldBinding) {
+        MBGL_CHECK_ERROR(glDisableVertexAttribArray(location));
+        oldBinding = {};
+    }
     MBGL_CHECK_ERROR(glVertexAttrib4f(location, value[0], value[1], value[2], value[3]));
 }
 
