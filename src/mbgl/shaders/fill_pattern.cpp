@@ -22,7 +22,7 @@ varying vec2 v_pos_a;
 varying vec2 v_pos_b;
 
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
 uniform lowp float a_opacity_t;
 attribute lowp vec2 a_opacity;
 varying lowp float opacity;
@@ -32,7 +32,7 @@ uniform lowp float u_opacity;
 
 void main() {
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
     opacity = unpack_mix_vec2(a_opacity, a_opacity_t);
 #else
     lowp float opacity = u_opacity;
@@ -59,7 +59,7 @@ varying vec2 v_pos_a;
 varying vec2 v_pos_b;
 
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
 varying lowp float opacity;
 #else
 uniform lowp float u_opacity;
@@ -67,7 +67,7 @@ uniform lowp float u_opacity;
 
 void main() {
 
-#ifdef HAS_UNIFORM_opacity
+#ifdef HAS_UNIFORM_u_opacity
     lowp float opacity = u_opacity;
 #endif
 

@@ -76,7 +76,7 @@ ${fragmentPrelude}
         const source = fs.readFileSync(path.join(inputPath, shaderName + '.vertex.glsl'), 'utf8');
         return applyPragmas(source, {
                 define: `
-#ifndef HAS_UNIFORM_{name}
+#ifndef HAS_UNIFORM_u_{name}
 uniform lowp float a_{name}_t;
 attribute {precision} {a_type} a_{name};
 varying {precision} {type} {name};
@@ -85,7 +85,7 @@ uniform {precision} {type} u_{name};
 #endif
 `,
                 initialize: `
-#ifndef HAS_UNIFORM_{name}
+#ifndef HAS_UNIFORM_u_{name}
     {name} = unpack_mix_{a_type}(a_{name}, a_{name}_t);
 #else
     {precision} {type} {name} = u_{name};
@@ -97,14 +97,14 @@ uniform {precision} {type} u_{name};
         const source = fs.readFileSync(path.join(inputPath, shaderName + '.fragment.glsl'), 'utf8');
         return applyPragmas(source, {
                 define: `
-#ifndef HAS_UNIFORM_{name}
+#ifndef HAS_UNIFORM_u_{name}
 varying {precision} {type} {name};
 #else
 uniform {precision} {type} u_{name};
 #endif
 `,
                 initialize: `
-#ifdef HAS_UNIFORM_{name}
+#ifdef HAS_UNIFORM_u_{name}
     {precision} {type} {name} = u_{name};
 #endif
 `

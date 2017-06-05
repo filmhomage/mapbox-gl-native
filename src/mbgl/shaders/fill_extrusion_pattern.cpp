@@ -31,7 +31,7 @@ varying vec4 v_lighting;
 varying float v_directional;
 
 
-#ifndef HAS_UNIFORM_base
+#ifndef HAS_UNIFORM_u_base
 uniform lowp float a_base_t;
 attribute lowp vec2 a_base;
 varying lowp float base;
@@ -39,7 +39,7 @@ varying lowp float base;
 uniform lowp float u_base;
 #endif
 
-#ifndef HAS_UNIFORM_height
+#ifndef HAS_UNIFORM_u_height
 uniform lowp float a_height_t;
 attribute lowp vec2 a_height;
 varying lowp float height;
@@ -49,13 +49,13 @@ uniform lowp float u_height;
 
 void main() {
 
-#ifndef HAS_UNIFORM_base
+#ifndef HAS_UNIFORM_u_base
     base = unpack_mix_vec2(a_base, a_base_t);
 #else
     lowp float base = u_base;
 #endif
 
-#ifndef HAS_UNIFORM_height
+#ifndef HAS_UNIFORM_u_height
     height = unpack_mix_vec2(a_height, a_height_t);
 #else
     lowp float height = u_height;
@@ -103,13 +103,13 @@ varying vec2 v_pos_b;
 varying vec4 v_lighting;
 
 
-#ifndef HAS_UNIFORM_base
+#ifndef HAS_UNIFORM_u_base
 varying lowp float base;
 #else
 uniform lowp float u_base;
 #endif
 
-#ifndef HAS_UNIFORM_height
+#ifndef HAS_UNIFORM_u_height
 varying lowp float height;
 #else
 uniform lowp float u_height;
@@ -117,11 +117,11 @@ uniform lowp float u_height;
 
 void main() {
 
-#ifdef HAS_UNIFORM_base
+#ifdef HAS_UNIFORM_u_base
     lowp float base = u_base;
 #endif
 
-#ifdef HAS_UNIFORM_height
+#ifdef HAS_UNIFORM_u_height
     lowp float height = u_height;
 #endif
 

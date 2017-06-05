@@ -42,7 +42,7 @@ varying vec2 v_tex_b;
 varying float v_gamma_scale;
 
 
-#ifndef HAS_UNIFORM_color
+#ifndef HAS_UNIFORM_u_color
 uniform lowp float a_color_t;
 attribute highp vec4 a_color;
 varying highp vec4 color;
@@ -50,7 +50,7 @@ varying highp vec4 color;
 uniform highp vec4 u_color;
 #endif
 
-#ifndef HAS_UNIFORM_blur
+#ifndef HAS_UNIFORM_u_blur
 uniform lowp float a_blur_t;
 attribute lowp vec2 a_blur;
 varying lowp float blur;
@@ -58,7 +58,7 @@ varying lowp float blur;
 uniform lowp float u_blur;
 #endif
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
 uniform lowp float a_opacity_t;
 attribute lowp vec2 a_opacity;
 varying lowp float opacity;
@@ -66,7 +66,7 @@ varying lowp float opacity;
 uniform lowp float u_opacity;
 #endif
 
-#ifndef HAS_UNIFORM_gapwidth
+#ifndef HAS_UNIFORM_u_gapwidth
 uniform lowp float a_gapwidth_t;
 attribute mediump vec2 a_gapwidth;
 varying mediump float gapwidth;
@@ -74,7 +74,7 @@ varying mediump float gapwidth;
 uniform mediump float u_gapwidth;
 #endif
 
-#ifndef HAS_UNIFORM_offset
+#ifndef HAS_UNIFORM_u_offset
 uniform lowp float a_offset_t;
 attribute lowp vec2 a_offset;
 varying lowp float offset;
@@ -84,31 +84,31 @@ uniform lowp float u_offset;
 
 void main() {
 
-#ifndef HAS_UNIFORM_color
+#ifndef HAS_UNIFORM_u_color
     color = unpack_mix_vec4(a_color, a_color_t);
 #else
     highp vec4 color = u_color;
 #endif
 
-#ifndef HAS_UNIFORM_blur
+#ifndef HAS_UNIFORM_u_blur
     blur = unpack_mix_vec2(a_blur, a_blur_t);
 #else
     lowp float blur = u_blur;
 #endif
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
     opacity = unpack_mix_vec2(a_opacity, a_opacity_t);
 #else
     lowp float opacity = u_opacity;
 #endif
 
-#ifndef HAS_UNIFORM_gapwidth
+#ifndef HAS_UNIFORM_u_gapwidth
     gapwidth = unpack_mix_vec2(a_gapwidth, a_gapwidth_t);
 #else
     mediump float gapwidth = u_gapwidth;
 #endif
 
-#ifndef HAS_UNIFORM_offset
+#ifndef HAS_UNIFORM_u_offset
     offset = unpack_mix_vec2(a_offset, a_offset_t);
 #else
     lowp float offset = u_offset;
@@ -178,19 +178,19 @@ varying vec2 v_tex_b;
 varying float v_gamma_scale;
 
 
-#ifndef HAS_UNIFORM_color
+#ifndef HAS_UNIFORM_u_color
 varying highp vec4 color;
 #else
 uniform highp vec4 u_color;
 #endif
 
-#ifndef HAS_UNIFORM_blur
+#ifndef HAS_UNIFORM_u_blur
 varying lowp float blur;
 #else
 uniform lowp float u_blur;
 #endif
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
 varying lowp float opacity;
 #else
 uniform lowp float u_opacity;
@@ -198,15 +198,15 @@ uniform lowp float u_opacity;
 
 void main() {
 
-#ifdef HAS_UNIFORM_color
+#ifdef HAS_UNIFORM_u_color
     highp vec4 color = u_color;
 #endif
 
-#ifdef HAS_UNIFORM_blur
+#ifdef HAS_UNIFORM_u_blur
     lowp float blur = u_blur;
 #endif
 
-#ifdef HAS_UNIFORM_opacity
+#ifdef HAS_UNIFORM_u_opacity
     lowp float opacity = u_opacity;
 #endif
 

@@ -20,7 +20,7 @@ uniform mediump float u_size; // used when size is both zoom and feature constan
 uniform mediump float u_layout_size; // used when size is feature constant
 
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
 uniform lowp float a_opacity_t;
 attribute lowp vec2 a_opacity;
 varying lowp float opacity;
@@ -43,7 +43,7 @@ varying vec2 v_fade_tex;
 
 void main() {
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
     opacity = unpack_mix_vec2(a_opacity, a_opacity_t);
 #else
     lowp float opacity = u_opacity;
@@ -108,7 +108,7 @@ uniform sampler2D u_texture;
 uniform sampler2D u_fadetexture;
 
 
-#ifndef HAS_UNIFORM_opacity
+#ifndef HAS_UNIFORM_u_opacity
 varying lowp float opacity;
 #else
 uniform lowp float u_opacity;
@@ -119,7 +119,7 @@ varying vec2 v_fade_tex;
 
 void main() {
 
-#ifdef HAS_UNIFORM_opacity
+#ifdef HAS_UNIFORM_u_opacity
     lowp float opacity = u_opacity;
 #endif
 
