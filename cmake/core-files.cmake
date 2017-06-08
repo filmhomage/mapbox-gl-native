@@ -531,6 +531,7 @@ set(MBGL_CORE_FILES
     include/mbgl/util/immutable.hpp
     include/mbgl/util/indexed_tuple.hpp
     include/mbgl/util/interpolate.hpp
+    include/mbgl/util/io.hpp
     include/mbgl/util/logging.hpp
     include/mbgl/util/noncopyable.hpp
     include/mbgl/util/optional.hpp
@@ -576,7 +577,6 @@ set(MBGL_CORE_FILES
     src/mbgl/util/intersection_tests.cpp
     src/mbgl/util/intersection_tests.hpp
     src/mbgl/util/io.cpp
-    src/mbgl/util/io.hpp
     src/mbgl/util/logging.cpp
     src/mbgl/util/longest_common_subsequence.hpp
     src/mbgl/util/mapbox.cpp
