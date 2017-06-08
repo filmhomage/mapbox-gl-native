@@ -102,6 +102,7 @@ private:
 
     std::function<void()> changeStyleCallback;
     std::function<void()> pauseResumeCallback;
+    std::function<void(mbgl::Map*)> animateRouteCallback;
 
     mbgl::util::RunLoop runLoop;
     mbgl::util::Timer frameTick;
