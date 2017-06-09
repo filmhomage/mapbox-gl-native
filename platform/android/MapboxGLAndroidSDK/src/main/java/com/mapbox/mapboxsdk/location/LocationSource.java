@@ -3,6 +3,7 @@ package com.mapbox.mapboxsdk.location;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.mapbox.services.android.telemetry.location.LocationEngine;
 import com.mapbox.services.android.telemetry.location.LocationEngineListener;
@@ -35,31 +36,15 @@ import timber.log.Timber;
 public class LocationSource extends LocationEngine implements
   LostApiClient.ConnectionCallbacks, LocationListener {
 
-  private static LocationEngine instance;
-
-  private WeakReference<Context> context;
+  private Context context;
   private LostApiClient lostApiClient;
 
-  private LocationSource(Context context) {
+  public LocationSource(Context context) {
     super();
-    this.context = new WeakReference<>(context);
-    lostApiClient = new LostApiClient.Builder(this.context.get())
+    this.context = context.getApplicationContext();
+    lostApiClient = new LostApiClient.Builder(this.context)
       .addConnectionCallbacks(this)
       .build();
-  }
-
-  /**
-   * Get the LocationEngine instance.
-   *
-   * @param context a Context from which the application context is derived
-   * @return the LocationEngine instance
-   */
-  public static synchronized LocationEngine getLocationEngine(@NonNull Context context) {
-    if (instance == null) {
-      instance = new LocationSource(context.getApplicationContext());
-    }
-
-    return instance;
   }
 
   /**
@@ -68,7 +53,7 @@ public class LocationSource extends LocationEngine implements
    */
   @Override
   public void activate() {
-    if (lostApiClient != null && !lostApiClient.isConnected()) {
+    if (!lostApiClient.isConnected()) {
       lostApiClient.connect();
     }
   }
@@ -80,7 +65,7 @@ public class LocationSource extends LocationEngine implements
    */
   @Override
   public void deactivate() {
-    if (lostApiClient != null && lostApiClient.isConnected()) {
+    if (lostApiClient.isConnected()) {
       lostApiClient.disconnect();
     }
   }
@@ -120,8 +105,9 @@ public class LocationSource extends LocationEngine implements
    * @return the last known location
    */
   @Override
+  @Nullable
   public Location getLastLocation() {
-    if (lostApiClient.isConnected() && PermissionsManager.areLocationPermissionsGranted(context.get())) {
+    if (lostApiClient.isConnected() && PermissionsManager.areLocationPermissionsGranted(context)) {
       //noinspection MissingPermission
       return LocationServices.FusedLocationApi.getLastLocation(lostApiClient);
     }
@@ -151,7 +137,7 @@ public class LocationSource extends LocationEngine implements
       request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    if (lostApiClient.isConnected() && PermissionsManager.areLocationPermissionsGranted(context.get())) {
+    if (lostApiClient.isConnected() && PermissionsManager.areLocationPermissionsGranted(context)) {
       //noinspection MissingPermission
       LocationServices.FusedLocationApi.requestLocationUpdates(lostApiClient, request, this);
     }

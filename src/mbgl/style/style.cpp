@@ -26,11 +26,11 @@ namespace style {
 static Observer nullObserver;
 
 Style::Style(Scheduler& scheduler_, FileSource& fileSource_, float pixelRatio)
-    : scheduler(scheduler_),
-      fileSource(fileSource_),
-      spriteLoader(std::make_unique<SpriteLoader>(pixelRatio)),
-      light(std::make_unique<Light>()),
-      observer(&nullObserver) {
+        : scheduler(scheduler_),
+          fileSource(fileSource_),
+          spriteLoader(std::make_unique<SpriteLoader>(pixelRatio)),
+          light(std::make_unique<Light>()),
+          observer(&nullObserver) {
     spriteLoader->setObserver(this);
     light->setObserver(this);
 }
@@ -120,7 +120,7 @@ std::unique_ptr<Source> Style::removeSource(const std::string& id) {
     // Check if source is in use
     SourceIdUsageEvaluator sourceIdEvaluator {id};
     auto layerIt = std::find_if(layers.begin(), layers.end(), [&](const auto& layer) {
-        return layer->accept(sourceIdEvaluator);
+    return layer->accept(sourceIdEvaluator);
     });
 
     if (layerIt != layers.end()) {
