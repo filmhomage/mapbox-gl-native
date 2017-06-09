@@ -279,6 +279,7 @@ RenderData RenderStyle::getRenderData(MapDebugOptions debugOptions, float angle)
                 result.order.emplace_back(*layer, nullptr);
                 continue;
             }
+#if 0
             const BackgroundPaintProperties::PossiblyEvaluated& paint = background->evaluated;
             if (layerImpl.get() == layerImpls->at(0).get() && paint.get<BackgroundPattern>().from.empty()) {
                 // This is a solid background. We can use glClear().
@@ -287,6 +288,11 @@ RenderData RenderStyle::getRenderData(MapDebugOptions debugOptions, float angle)
                 // This is a textured background, or not the bottommost layer. We need to render it with a quad.
                 result.order.emplace_back(*layer, nullptr);
             }
+#else
+            // This is a textured background, or not the bottommost layer. We need to render it with a quad.
+            (void)background;
+            result.order.emplace_back(*layer, nullptr);
+#endif
             continue;
         }
 

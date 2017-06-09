@@ -139,6 +139,7 @@ GLFWView::~GLFWView() {
 void GLFWView::setMap(mbgl::Map *map_) {
     map = map_;
     map->addAnnotationImage(makeImage("default_marker", 22, 22, 1));
+    map->setMaxPitch(89.9);
 }
 
 void GLFWView::updateAssumedState() {
@@ -241,19 +242,22 @@ void GLFWView::onKey(GLFWwindow *window, int key, int /*scancode*/, int action, 
 
                 static double routeDistance = ruler.lineDistance(lineString);
                 static double routeProgress = 0;
-                routeProgress += 0.0005;
+                routeProgress += 0.00025;
                 if (routeProgress > 1.0) routeProgress = 0;
+
+                static mbgl::EdgeInsets insets = { routeMap->getSize().height / 2.0, 0, 0, 0 };
 
                 double distance = routeProgress * routeDistance;
                 auto point = ruler.along(lineString, distance);
-                auto latLng = routeMap->getLatLng();
-                routeMap->setLatLng({ point.y, point.x });
+                auto latLng = routeMap->getLatLng(insets);
                 double bearing = ruler.bearing({ latLng.longitude(), latLng.latitude() }, point);
                 double easing = bearing - routeMap->getBearing();
                 easing += easing > 180.0 ? -360.0 : easing < -180 ? 360.0 : 0;
-                routeMap->setBearing(routeMap->getBearing() + (easing / 20));
-                routeMap->setPitch(60.0);
-                routeMap->setZoom(18.0);
+
+                routeMap->setLatLng({ point.y, point.x }, insets);
+                routeMap->setBearing(routeMap->getBearing() + (easing / 20), insets);
+                routeMap->setPitch(89);
+                routeMap->setZoom(18.5, insets);
             };
             view->animateRouteCallback(view->map);
         } break;
@@ -267,14 +271,14 @@ void GLFWView::onKey(GLFWwindow *window, int key, int /*scancode*/, int action, 
             auto colorFn = mbgl::style::SourceFunction<mbgl::Color> { "height",
                 mbgl::style::ExponentialStops<mbgl::Color> {
                     std::map<float, mbgl::Color> {
-                        {   0.f, *mbgl::Color::parse("#160e23") },
-                        {  50.f, *mbgl::Color::parse("#00615f") },
-                        { 100.f, *mbgl::Color::parse("#55e9ff") }
+                        {   0.f, *mbgl::Color::parse("#ffd700") },
+                        {  50.f, *mbgl::Color::parse("#008000") },
+                        { 100.f, *mbgl::Color::parse("#4b0082") }
                     }
                 }
             };
             extrusionLayer->setFillExtrusionColor({ colorFn });
-            extrusionLayer->setFillExtrusionOpacity({ 0.6f });
+            extrusionLayer->setFillExtrusionOpacity({ 0.7f });
 
             auto heightSourceFn = mbgl::style::SourceFunction<float> { "height", mbgl::style::IdentityStops<float>() };
             extrusionLayer->setFillExtrusionHeight({ heightSourceFn });

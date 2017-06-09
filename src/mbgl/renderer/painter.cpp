@@ -191,7 +191,7 @@ void Painter::render(RenderStyle& style, const FrameData& frame_, View& view) {
         view.bind();
         context.clear(paintMode() == PaintMode::Overdraw
                         ? Color::black()
-                        : renderData.backgroundColor,
+                        : *Color::parse("#00BFFF"), // renderData.backgroundColor,
                       1.0f,
                       0);
     }

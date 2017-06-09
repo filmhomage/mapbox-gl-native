@@ -160,9 +160,12 @@ std::vector<UnwrappedTileID> tileCover(const TransformState& state, int32_t z) {
 
     const double w = state.getSize().width;
     const double h = state.getSize().height;
+
+    const double th = state.getPitch() >= M_PI / 3 ? h/2 + 1 : h;
+
     return tileCover(
-        TileCoordinate::fromScreenCoordinate(state, z, { 0,   h   }).p,
-        TileCoordinate::fromScreenCoordinate(state, z, { w,   h   }).p,
+        TileCoordinate::fromScreenCoordinate(state, z, { 0,   th  }).p,
+        TileCoordinate::fromScreenCoordinate(state, z, { w,   th  }).p,
         TileCoordinate::fromScreenCoordinate(state, z, { w,   0   }).p,
         TileCoordinate::fromScreenCoordinate(state, z, { 0,   0   }).p,
         TileCoordinate::fromScreenCoordinate(state, z, { w/2, h/2 }).p,
